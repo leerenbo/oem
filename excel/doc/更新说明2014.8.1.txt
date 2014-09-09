@@ -14,3 +14,6 @@
 1.修复excel数字转String的科学计数法。
 2.修复office2007。写excel超过4000条OOM内存溢出问题。
 3.支持excel文本转java数字类型
+
+0.0.5修正：
+1.修复linux下，路径问题。

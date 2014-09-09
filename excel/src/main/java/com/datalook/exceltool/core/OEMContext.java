@@ -41,6 +41,8 @@ public class OEMContext {
 	
 	private static java.text.NumberFormat nf = java.text.NumberFormat.getInstance();   
 	
+	private static String separator=java.io.File.separator;
+
 	static {
 		nf.setGroupingUsed(false);  
 	}
@@ -59,10 +61,10 @@ public class OEMContext {
 	 */
 	public static <E> void generateExecl(List<E> list,String path,String name) throws ExcelNullListException, ExcelWrongAnnotationException, IOException{
 		FileOutputStream out;
-		if(path.endsWith("\\")){
+		if(path.endsWith(separator)){
 			out  = new FileOutputStream(path+name);			
 		}else{
-			out  = new FileOutputStream(path+"\\"+name);
+			out  = new FileOutputStream(path+separator+name);
 		}
 		if(name.endsWith(".xls")){
 			generateExecl(list, out,OFFICE03);			
@@ -299,10 +301,10 @@ public class OEMContext {
 	 */
 	public static <T> List<T> readExecl(Class<T> clazz,String path,String name) throws ExcelWrongAnnotationException, IOException, ExcelConstructException{
 		FileInputStream in;
-		if(path.endsWith("\\")){
+		if(path.endsWith(separator)){
 			in  = new FileInputStream(path+name);			
 		}else{
-			in  = new FileInputStream(path+"\\"+name);
+			in  = new FileInputStream(path+separator+name);
 		}
 		if(name.endsWith(".xls")){
 			return readExecl(clazz, in,OFFICE03);		
