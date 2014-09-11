@@ -5,11 +5,17 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.UUID;
 
 import com.datalook.exceltool.annotation.ColumnCfg;
 import com.datalook.exceltool.exception.ExcelWrongAnnotationException;
 
 public class ReflectInfo {
+	
+	private static String separatedouhao=UUID.randomUUID().toString();//  /,
+	private static String separatemaohao=UUID.randomUUID().toString();//  /:
+	private static String separatexiegang=UUID.randomUUID().toString();// //
+	
 	String fieldName;
 	Field field;
 	Method methodGet;
@@ -41,9 +47,21 @@ public class ReflectInfo {
 			}else{
 				new ExcelWrongAnnotationException("没有定义columnCfg");
 			}
-			String[] mapStrings=columnCfgTemp.mapString().split(",");
-			for(String mapString:mapStrings){
-				String[] keyvalue=mapString.split(":");
+			String mapString=columnCfgTemp.mapString();
+			mapString=mapString.replace("//", separatexiegang);
+			mapString=mapString.replace("/,", separatedouhao);
+			mapString=mapString.replace("/:", separatemaohao);
+			String[] mapStrings=mapString.split(",");
+			for(String eachmapString:mapStrings){
+				String[] keyvalue=eachmapString.split(":");
+				
+				keyvalue[0]=keyvalue[0].replace( separatexiegang,"/");
+				keyvalue[0]=keyvalue[0].replace( separatedouhao,",");
+				keyvalue[0]=keyvalue[0].replace( separatemaohao,":");
+				keyvalue[1]=keyvalue[1].replace( separatexiegang,"/");
+				keyvalue[1]=keyvalue[1].replace( separatedouhao,",");
+				keyvalue[1]=keyvalue[1].replace( separatemaohao,":");
+
 				map.put(keyvalue[0], keyvalue[1]);
 			}
 		}
