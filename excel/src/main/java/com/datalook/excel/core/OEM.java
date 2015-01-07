@@ -103,6 +103,40 @@ public class OEM {
 		wb.write(out);
 		out.close();
 	}
+	
+	public static <E> void generateExeclTitle(Class<E> transformClass,OutputStream out,int officeVersion) throws IOException{
+		SheetInfo si = null;
+		try {
+			si = ClassHolder.getSheetInfo(transformClass);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("注释编写异常");
+		}
+
+		Workbook wb = null;
+		switch (officeVersion) {
+		case OFFICE03:
+			wb = new HSSFWorkbook();
+			break;
+		case OFFICE07:
+			wb = new SXSSFWorkbook(1000);
+			break;
+		default:
+			throw new RuntimeException("传入office版本号有误");
+		}
+
+		Sheet sheet = null;
+		sheet = wb.createSheet(si.sheetName);
+
+		CellStyle dateStyle = wb.createCellStyle();
+		DataFormat format = wb.createDataFormat();
+		dateStyle.setDataFormat(format.getFormat("m/d/yy h:mm"));
+
+		titleToExecl(sheet, si);
+
+		wb.write(out);
+		out.close();
+	}
 
 	private static void titleToExecl(Sheet sheet, SheetInfo si) {
 		Row startRow = sheet.createRow(si.startRowNumber);
