@@ -1,25 +1,32 @@
 package com.datalook.excel.core.holder;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
-import com.datalook.excel.annotation.OEMColumn;
-import com.datalook.excel.annotation.OEMRelatedColumns;
-import com.datalook.excel.annotation.OEMSheet;
-import com.datalook.lrb.reflectutils.ReflectUtil;
+import org.apache.commons.lang3.AnnotationUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.util.ReflectionUtils;
 
-public class SheetInfo {
+import com.datalook.excel.annotation.OEMColumn;
+import com.datalook.excel.annotation.OEMSheet;
+import com.datalook.util.ReflectUtil;
+
+public class SheetInfo implements Cloneable{
 	public Class clazz;
+
 	public int id;
-	public String title;
+
 	public String sheetName;
+
 	public int startRowNumber;
 
-	public List<ColumnInfo> columns = new ArrayList<ColumnInfo>();
-	
+	public String title;
+
+	public List<ColumnInfo> columns;
 
 	public SheetInfo(Class clazz) {
 		this.clazz = clazz;
@@ -28,18 +35,29 @@ public class SheetInfo {
 		title = oems.title();
 		sheetName = oems.sheetName();
 		startRowNumber = oems.startRowNumber();
-
 		Field[] fields = clazz.getDeclaredFields();
+		HashSet<ColumnInfo> columnInfoSet = new HashSet<>();
+
 		for (Field field : fields) {
-			OEMColumn oemc = ReflectUtil.getAnnotation(field, OEMColumn.class);
-			if (oemc != null && oemc.sheetId() == -1) {
-//				if (oemc.location() >= 0) {
-//					ColumnInfo ci = new ColumnInfo(oemc, field);
-//					columns.add(ci);
-//				} else {
-					columns.add(new ColumnInfo(oemc, field,id));
-//				}
-			}
+			Arrays.stream(field.getAnnotationsByType(OEMColumn.class)).filter((column) -> {
+				return column.sheetId() == id||column.sheetId()==-1;
+			}).forEach((column) -> {
+				columnInfoSet.add(new ColumnInfo(column, field, id));
+			});
 		}
+
+		for (ColumnInfo columnInfo : columnInfoSet) {
+			columnInfo.addInsideColumnsTo(columnInfoSet);
+		}
+
+		columns = new ArrayList<>(columnInfoSet);
+		Collections.sort(columns);
+
 	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
+	
 }

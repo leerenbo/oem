@@ -1,12 +1,12 @@
 package oem.union;
 
 import com.datalook.excel.annotation.OEMColumn;
-import com.datalook.excel.annotation.OEMRelatedColumns;
+import com.datalook.excel.annotation.OEMColumns;
 
 public class Body {
-	@OEMRelatedColumns(@OEMColumn(sheetId=3,location=3,title="身中胳膊"))
+	@OEMColumns(@OEMColumn(sheetId=3,location=3,title="身中胳膊"))
 	String arms;
-	@OEMRelatedColumns(@OEMColumn(sheetId=3,location=4,title="身中退"))
+	@OEMColumns(@OEMColumn(sheetId=3,location=4,title="身中退"))
 	String legs;
 	
 	

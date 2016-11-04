@@ -5,18 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -32,9 +27,9 @@ import com.datalook.excel.annotation.OEMColumn.ReadWriteStrategy;
 import com.datalook.excel.core.holder.ClassHolder;
 import com.datalook.excel.core.holder.ColumnInfo;
 import com.datalook.excel.core.holder.SheetInfo;
-import com.datalook.exceltool.exception.ExcelConstructException;
 
-public class OEM {
+@Deprecated
+public class OEMUtil {
 	public final static int OFFICE03 = 3;
 	public final static int OFFICE07 = 7;
 
@@ -374,14 +369,10 @@ public class OEM {
 								}
 							} else if (ci.field.getType().equals(Timestamp.class)) {
 								Timestamp info = new Timestamp(ci.sdf.parse(cell.getStringCellValue()).getTime());
-								if (info != null) {
-									FieldUtils.writeDeclaredField(o, ci.field.getName(), info, true);
-									continue rows;
-								} else {
-									throw new RuntimeException("日期映射中，" + cell.getStringCellValue() + "无法用" + ci.simpleDateFormatString + "格式解析");
-								}
+								FieldUtils.writeDeclaredField(o, ci.field.getName(), info, true);
+								continue rows;
 							} else {
-								throw new ExcelConstructException("map类型错误");
+								throw new RuntimeException("map类型错误");
 							}
 						} else {
 							if (ci.field.getType().equals(String.class)) {

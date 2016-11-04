@@ -3,34 +3,38 @@ package quickstart;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 
-import com.datalook.exceltool.annotation.ColumnCfg;
-import com.datalook.exceltool.annotation.SheetCfg;
+import com.datalook.excel.annotation.OEMColumn;
+import com.datalook.excel.annotation.OEMSheet;
 
-@SheetCfg(sheetName="sheet")
+@OEMSheet(title="title",sheetName="sheetName")
 public class SimpleTypeTest {
 
-	@ColumnCfg(location=0,name="string类型")
+	@OEMColumn(location=0,title="string类型")
 	public String myString;
-	@ColumnCfg(location=1,name="Integer类型")
+	@OEMColumn(location=1,title="Integer类型")
 	public Integer myInteger;
-	@ColumnCfg(location=2,name="Long类型")
+	@OEMColumn(location=2,title="Long类型")
 	public Long myLong;
-	@ColumnCfg(location=3,name="Short类型")
+	@OEMColumn(location=3,title="Short类型")
 	public Short myShort;
-	@ColumnCfg(location=4,name="Double类型")
+	@OEMColumn(location=4,title="Double类型")
 	public Double myDouble;
-	@ColumnCfg(location=5,name="Float类型")
+	@OEMColumn(location=5,title="Float类型")
 	public Float myFloat;
-	@ColumnCfg(location=6,name="Boolean类型")
+	@OEMColumn(location=6,title="Boolean类型")
 	public Boolean myBoolean;
-	@ColumnCfg(location=7,name="Date类型")
+	@OEMColumn(location=7,title="Date类型")
 	public Date myDate;
-	@ColumnCfg(location=8,name="StringBuffer类型")
+	@OEMColumn(location=8,title="StringBuffer类型")
 	public StringBuffer myStringBuffer;
-	@ColumnCfg(location=9,name="Timestamp类型")
+	@OEMColumn(location=9,title="Timestamp类型")
 	public Timestamp timestampp;
 	
+	@OEMColumn(location=10,mapKey="int",mapClass=Integer.class,title="map数字测试")
+	@OEMColumn(location=11,mapKey="string",mapClass=String.class,title="字符测试")
+	public HashMap map=new HashMap<>();
 	
 	public Timestamp getTimestampp() {
 		return timestampp;
@@ -139,6 +143,14 @@ public class SimpleTypeTest {
 				+ ", myInteger=" + myInteger + ", myLong=" + myLong
 				+ ", myShort=" + myShort + ", myString=" + myString
 				+ ", myStringBuffer=" + myStringBuffer + "]";
+	}
+
+	public HashMap getMap() {
+		return map;
+	}
+
+	public void setMap(HashMap map) {
+		this.map = map;
 	}
 	
 	

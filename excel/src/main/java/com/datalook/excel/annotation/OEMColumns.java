@@ -1,4 +1,4 @@
-package com.datalook.exceltool.annotation;
+package com.datalook.excel.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Documented 
 @Retention(RetentionPolicy.RUNTIME) 
 @Target({ElementType.FIELD,ElementType.METHOD}) 
-public @interface ColumnCfgs {
+public @interface OEMColumns {
 
 	/**
 	 * 
@@ -23,5 +23,5 @@ public @interface ColumnCfgs {
 	 * @author ：lirenbo
 	 * @return
 	 */
-	public ColumnCfg[] value();
+	public OEMColumn[] value();
 }

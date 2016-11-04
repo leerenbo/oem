@@ -1,10 +1,9 @@
 package com.datalook.excel.core.holder;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public class ClassHolder {
 
 	public static Map<Class, SheetInfo> sheets = new HashMap<Class, SheetInfo>();

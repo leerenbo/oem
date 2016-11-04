@@ -1,12 +1,12 @@
 package oem.union;
 
 import com.datalook.excel.annotation.OEMColumn;
-import com.datalook.excel.annotation.OEMRelatedColumns;
+import com.datalook.excel.annotation.OEMColumns;
 
 public class Head {
-	@OEMRelatedColumns(@OEMColumn(sheetId=3,location=0,title="头中眼睛"))
+	@OEMColumns(@OEMColumn(sheetId=3,location=0,title="头中眼睛"))
 	String eyes;
-	@OEMRelatedColumns(@OEMColumn(sheetId=3,location=1,title="头中耳朵"))
+	@OEMColumns(@OEMColumn(sheetId=3,location=1,title="头中耳朵"))
 	String ears;
 	public String getEyes() {
 		return eyes;
